@@ -1,121 +1,421 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Docker Music Player</title>
+    <title>Docker Glass Music Player</title>
 
     <link rel="icon" type="image/png" href="favicon.png">
 
     <style>
-        body {
-            background: #111;
-            color: white;
-            font-family: Arial;
-            text-align: center;
-            padding-top: 40px;
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        h1 {
-            color: #00ffcc;
+        body {
+
+            height: 100vh;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0f2027,
+                    #203a43,
+                    #2c5364
+                );
+
+            overflow: hidden;
+
+            font-family: Arial, sans-serif;
+        }
+
+        body::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 600px;
+            height: 600px;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(0,255,200,0.25),
+                    transparent
+                );
+
+            top: -150px;
+            left: -150px;
+
+            animation: float 8s infinite alternate;
+        }
+
+        body::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 500px;
+            height: 500px;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(0,150,255,0.25),
+                    transparent
+                );
+
+            bottom: -150px;
+            right: -150px;
+
+            animation: float2 10s infinite alternate;
+        }
+
+        @keyframes float {
+
+            from {
+                transform: translateY(0px);
+            }
+
+            to {
+                transform: translateY(60px);
+            }
+        }
+
+        @keyframes float2 {
+
+            from {
+                transform: translateX(0px);
+            }
+
+            to {
+                transform: translateX(-60px);
+            }
         }
 
         .player {
-            background: #222;
-            width: 400px;
-            margin: auto;
-            padding: 20px;
-            border-radius: 20px;
-            box-shadow: 0 0 20px #00ffcc;
+
+            position: relative;
+
+            width: 500px;
+
+            padding: 30px;
+
+            border-radius: 30px;
+
+            background:
+                rgba(255,255,255,0.08);
+
+            backdrop-filter: blur(20px);
+
+            border:
+                1px solid rgba(255,255,255,0.15);
+
+            box-shadow:
+                0 8px 32px rgba(0,0,0,0.35);
+
+            color: white;
+
+            z-index: 10;
         }
 
-        button {
-            background: #00ffcc;
-            border: none;
-            padding: 10px 15px;
-            margin: 10px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: bold;
-        }
+        h1 {
 
-        button:hover {
-            transform: scale(1.05);
+            text-align: center;
+
+            margin-bottom: 20px;
+
+            font-size: 32px;
+
+            color: #ffffff;
         }
 
         audio {
+
             width: 100%;
+
+            margin-top: 15px;
+        }
+
+        .controls {
+
+            text-align: center;
+
             margin-top: 20px;
         }
 
+        button {
+
+            border: none;
+
+            padding: 12px 20px;
+
+            margin: 10px;
+
+            border-radius: 16px;
+
+            background:
+                rgba(255,255,255,0.12);
+
+            color: white;
+
+            cursor: pointer;
+
+            font-size: 16px;
+
+            backdrop-filter: blur(10px);
+
+            transition: 0.3s;
+        }
+
+        button:hover {
+
+            transform: scale(1.08);
+
+            background:
+                rgba(255,255,255,0.22);
+        }
+
+        .nowPlaying {
+
+            margin-top: 20px;
+
+            text-align: center;
+
+            font-size: 18px;
+
+            color: #00ffcc;
+        }
+
         ul {
+
             list-style: none;
-            padding: 0;
+
+            margin-top: 25px;
+
+            max-height: 300px;
+
+            overflow-y: auto;
         }
 
         li {
-            padding: 10px;
+
+            padding: 14px;
+
+            margin-bottom: 10px;
+
+            border-radius: 16px;
+
+            background:
+                rgba(255,255,255,0.08);
+
             cursor: pointer;
+
+            transition: 0.3s;
         }
 
         li:hover {
-            background: #333;
+
+            transform: translateX(5px);
+
+            background:
+                rgba(255,255,255,0.18);
         }
+
+        ::-webkit-scrollbar {
+
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+
+            background: rgba(255,255,255,0.2);
+
+            border-radius: 20px;
+        }
+
     </style>
+
 </head>
 
 <body>
 
     <div class="player">
-        <h1>Docker Music Player</h1>
 
-       <audio id="audioPlayer" controls
-src="songs/The_Weeknd_ft._playboi_carti_-_Popular.mp3">
-</audio>
-        <div>
-            <button onclick="prevSong()">Prev</button>
-            <button onclick="nextSong()">Next</button>
+        <h1>Docker Glass Player</h1>
+
+        <audio id="audioPlayer" controls></audio>
+
+        <div class="controls">
+
+            <button onclick="prevSong()">
+                Prev
+            </button>
+
+            <button onclick="nextSong()">
+                Next 
+            </button>
+
         </div>
 
-        <h3>Playlist</h3>
+        <div
+            class="nowPlaying"
+            id="nowPlaying">
 
-        <ul id="playlist">
-            <li onclick="playSong(0)">The_Weeknd_ft._playboi_carti_-_Popular.mp3</li>
-            <li onclick="playSong(1)">The_Weeknd_ft._Playboi_Carti_-_Timeless.mp3</li>
-            <li onclick="playSong(2)">BLACKPINK_-_Whistle_RapFromSouthKorea.mp3</li>
-        </ul>
+            No song playing
+
+        </div>
+
+        <ul id="playlist"></ul>
+
     </div>
 
-   <script>
-    const songs = [
-        "songs/The_Weeknd_ft._playboi_carti_-_Popular.mp3",
-        "songs/The_Weeknd_ft._Playboi_Carti_-_Timeless.mp3",
-        "songs/BLACKPINK_-_Whistle_RapFromSouthKorea.mp3"
-    ];
+    <script>
 
-    let currentSong = 0;
+        let songs = [];
 
-    const audioPlayer = document.getElementById("audioPlayer");
+        let currentSong = 0;
 
-    function playSong(index) {
-        currentSong = index;
+        const audioPlayer =
+            document.getElementById(
+                "audioPlayer"
+            );
 
-        audioPlayer.src = songs[currentSong];
+        const playlist =
+            document.getElementById(
+                "playlist"
+            );
 
-        audioPlayer.play();
-    }
+        const nowPlaying =
+            document.getElementById(
+                "nowPlaying"
+            );
 
-    function nextSong() {
-        currentSong = (currentSong + 1) % songs.length;
+        async function loadSongs() {
 
-        playSong(currentSong);
-    }
+            const response =
+                await fetch('/songs/');
 
-    function prevSong() {
-        currentSong =
-            (currentSong - 1 + songs.length) % songs.length;
+            const text =
+                await response.text();
 
-        playSong(currentSong);
-    }
-</script>
+            const parser =
+                new DOMParser();
+
+            const htmlDoc =
+                parser.parseFromString(
+                    text,
+                    'text/html'
+                );
+
+            const links =
+                htmlDoc.querySelectorAll('a');
+
+            links.forEach((link) => {
+
+                const fileName =
+                    link.getAttribute('href');
+
+                if (
+                    fileName &&
+                    fileName.endsWith('.mp3') &&
+                    !songs.includes(
+                        'songs/' + fileName
+                    )
+                ) {
+
+                    songs.push(
+                        'songs/' + fileName
+                    );
+
+                    const songIndex =
+                        songs.length - 1;
+
+                    const li =
+                        document.createElement('li');
+
+                    li.textContent =
+                        fileName
+                        .replaceAll('_', ' ')
+                        .replace('.mp3', '');
+
+                    li.onclick = () =>
+                        playSong(songIndex);
+
+                    playlist.appendChild(li);
+                }
+            });
+
+            if (songs.length > 0) {
+
+                audioPlayer.src =
+                    songs[0];
+
+                updateNowPlaying();
+            }
+        }
+
+        function updateNowPlaying() {
+
+            const songName =
+                songs[currentSong]
+                .replace('songs/', '')
+                .replaceAll('_', ' ')
+                .replace('.mp3', '');
+
+            nowPlaying.innerText =
+                "Now Playing: " + songName;
+        }
+
+        function playSong(index) {
+
+            currentSong = index;
+
+            audioPlayer.src =
+                songs[currentSong];
+
+            audioPlayer.play();
+
+            updateNowPlaying();
+        }
+
+        function nextSong() {
+
+            currentSong =
+                (currentSong + 1)
+                % songs.length;
+
+            playSong(currentSong);
+        }
+
+        function prevSong() {
+
+            currentSong =
+                (currentSong - 1 + songs.length)
+                % songs.length;
+
+            playSong(currentSong);
+        }
+
+        audioPlayer.addEventListener(
+            'ended',
+            nextSong
+        );
+
+        loadSongs();
+
+    </script>
 
 </body>
+
 </html>

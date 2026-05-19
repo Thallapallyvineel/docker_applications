@@ -1,0 +1,16 @@
+1.After getting an access for tty in redis container, to access reids commands use redis-cli command.
+2.Commnads include SET, GET
+	eg: SET username Vineel -> sets value to Vineel
+		GET username -> returns Vineel
+		
+	Visualization:
+	
+		docker exec -it 97 sh
+				↓
+		inside Linux container shell
+				↓
+		run redis-cli
+				↓
+		inside Redis database shell
+				↓
+		run SET / GET commands

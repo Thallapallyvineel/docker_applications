@@ -1,0 +1,7 @@
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "9091:80"
+    volumes:
+      - E:\minikube\docker_projects\nginx\index.html:/usr/share/nginx/html/index.html:ro

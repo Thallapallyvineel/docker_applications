@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Docker Music Player</title>
+
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <style>
+        body {
+            background: #111;
+            color: white;
+            font-family: Arial;
+            text-align: center;
+            padding-top: 40px;
+        }
+
+        h1 {
+            color: #00ffcc;
+        }
+
+        .player {
+            background: #222;
+            width: 400px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 0 20px #00ffcc;
+        }
+
+        button {
+            background: #00ffcc;
+            border: none;
+            padding: 10px 15px;
+            margin: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        audio {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        li:hover {
+            background: #333;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="player">
+        <h1>Docker Music Player</h1>
+
+       <audio id="audioPlayer" controls
+src="songs/The_Weeknd_ft._playboi_carti_-_Popular.mp3">
+</audio>
+        <div>
+            <button onclick="prevSong()">Prev</button>
+            <button onclick="nextSong()">Next</button>
+        </div>
+
+        <h3>Playlist</h3>
+
+        <ul id="playlist">
+            <li onclick="playSong(0)">The_Weeknd_ft._playboi_carti_-_Popular.mp3</li>
+            <li onclick="playSong(1)">The_Weeknd_ft._Playboi_Carti_-_Timeless.mp3</li>
+            <li onclick="playSong(2)">BLACKPINK_-_Whistle_RapFromSouthKorea.mp3</li>
+        </ul>
+    </div>
+
+   <script>
+    const songs = [
+        "songs/The_Weeknd_ft._playboi_carti_-_Popular.mp3",
+        "songs/The_Weeknd_ft._Playboi_Carti_-_Timeless.mp3",
+        "songs/BLACKPINK_-_Whistle_RapFromSouthKorea.mp3"
+    ];
+
+    let currentSong = 0;
+
+    const audioPlayer = document.getElementById("audioPlayer");
+
+    function playSong(index) {
+        currentSong = index;
+
+        audioPlayer.src = songs[currentSong];
+
+        audioPlayer.play();
+    }
+
+    function nextSong() {
+        currentSong = (currentSong + 1) % songs.length;
+
+        playSong(currentSong);
+    }
+
+    function prevSong() {
+        currentSong =
+            (currentSong - 1 + songs.length) % songs.length;
+
+        playSong(currentSong);
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+services:
+  nginx_music_player:
+    build: .
+    ports:
+      - "8080:80"
+    volumes:
+      - E:\minikube\docker_projects\music_player_basic\songs:/usr/share/nginx/html/songs/
